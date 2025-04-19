@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:coupons/theme/colors.dart';
 import 'code_screen.dart';
@@ -19,12 +20,20 @@ class ReweCodeScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
+          /*
           Expanded(
             child: Center(child: Image.asset('assets/rewe/center_area.png')),
           ),
           Image.asset(
             'assets/rewe/bottom_area.png',
             width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+          */
+          CachedNetworkImage(
+            imageUrl: 'https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/assets/dm/bottom_area.png',
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
             fit: BoxFit.cover,
           ),
         ],

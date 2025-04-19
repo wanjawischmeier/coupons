@@ -1,0 +1,15 @@
+code_page_bg_color: 0xFFE8F4F4
+
+code_page_layout:
+  - type: image
+    url: https://example.com/image1.jpg
+    expanded: false
+    goBack: true
+
+  - type: spacer
+    height: 20
+
+  - type: image
+    url: https://example.com/image2.jpg
+    expanded: true
+    goBack: false

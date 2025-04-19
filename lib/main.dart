@@ -1,5 +1,6 @@
 import 'package:coupons/screens/shop_code/dm_code_screen.dart';
 import 'package:coupons/screens/shop_code/rewe_code_screen.dart';
+import 'package:coupons/utility/database.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/home_screen.dart';
@@ -8,6 +9,9 @@ import 'theme/colors.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferences.getInstance();
+  fetchTextFile('https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/README.md').then((value) {
+    print(value);
+  });
   runApp(CouponApp());
 }
 

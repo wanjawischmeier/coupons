@@ -6,6 +6,6 @@ class AppColors {
   static const Color gridPlaceholder = Colors.grey;
   static const Color textPrimary = Colors.black87;
 
-  static const Color codeScreenBackgroundRewe = Color.fromARGB(255, 232, 244, 244);
+  static const Color codeScreenBackgroundRewe = Color(0xFFE8F4F4);
   static const Color codeScreenBackgroundDm = Color.fromARGB(255, 246, 246, 246);
 }
