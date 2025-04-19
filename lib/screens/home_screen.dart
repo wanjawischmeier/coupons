@@ -1,10 +1,13 @@
+import 'package:coupons/screens/shop_code/dynamic_code_screen.dart';
+import 'package:coupons/theme/colors.dart';
 import 'package:coupons/utility/database.dart';
+import 'package:coupons/utility/settings.dart';
 import 'package:coupons/widgets/shop_grid_cell.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  final String configUrl; // e.g. 'https://example.com/shop_list.yaml'
-  const HomeScreen({super.key, required this.configUrl});
+  final String defaultConfigUrl; // e.g. 'https://example.com/shop_list.yaml'
+  const HomeScreen({super.key, required this.defaultConfigUrl});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -16,15 +19,44 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _shopListFuture = fetchShopListConfig(widget.configUrl);
+    _shopListFuture = fetchShopListConfig(widget.defaultConfigUrl);
   }
 
-  void showComingSoonDialog() {
-    showDialog(
+  Future<void> showComingSoonDialog() async {
+    return showDialog<void>(
       context: context,
-      builder: (context) => const AlertDialog(
-        title: Text("Bald verfügbar"),
-        content: Text("Dieser Shop ist bald verfügbar."),
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Coming soon'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[Text('Mehr Shops kommen bald!')],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Nice'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void openShopScreen(BuildContext context, Map<String, dynamic> shop) {
+    final configUrl = shop['config_url'];
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder:
+            (_) => DynamicCodeScreen(
+              configUrl: configUrl,
+              backgroundColor: AppColors.background, // Or get from config
+            ),
       ),
     );
   }
@@ -33,11 +65,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Coupons', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          'Coupons',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings, color: Colors.black),
-            onPressed: () {}, // Replace with your handler
+            onPressed:
+                () => showSettingDialog(context, widget.defaultConfigUrl),
           ),
           const SizedBox(width: 10),
         ],
@@ -55,6 +91,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
 
                 final items = snapshot.data!;
+                final List<Widget> gridCells =
+                    items
+                        .map(
+                          (item) => ShopGridCell(
+                            imageUrl: item['logo_url'],
+                            onTap: () => openShopScreen(context, item),
+                          ),
+                        )
+                        .toList();
+
+                // Pad with empty cells if less than 6
+                while (gridCells.length < 6) {
+                  gridCells.add(ShopGridCell(onTap: showComingSoonDialog));
+                }
+
                 return Center(
                   child: SizedBox(
                     width: 400,
@@ -65,23 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisCount: 3,
                         crossAxisSpacing: 12,
                         mainAxisSpacing: 12,
-                        children: items.map((item) {
-                          final route = '/code_screen/${item['name']?.toLowerCase()}';
-                          final enabled = item['enabled'] != false;
-
-                          return ConstrainedBox(
-                            constraints: const BoxConstraints(
-                              maxWidth: 100,
-                              maxHeight: 100,
-                            ),
-                            child: ShopGridCell(
-                              imageUrl: item['logo_url'],
-                              onTap: enabled
-                                  ? () => Navigator.pushNamed(context, route)
-                                  : showComingSoonDialog,
-                            ),
-                          );
-                        }).toList(),
+                        children: gridCells,
                       ),
                     ),
                   ),

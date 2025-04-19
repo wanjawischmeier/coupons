@@ -1,6 +1,3 @@
-import 'package:coupons/screens/shop_code/dm_code_screen.dart';
-import 'package:coupons/screens/shop_code/dynamic_code_screen.dart';
-import 'package:coupons/screens/shop_code/rewe_code_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/home_screen.dart';
@@ -32,19 +29,9 @@ class CouponApp extends StatelessWidget {
         ),
       ),
       home: HomeScreen(
-        configUrl:
+        defaultConfigUrl:
             'https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/shop_list.yml',
       ),
-      routes: {
-        '/code_screen/dm': (context) => DmCodeScreen(),
-        '/code_screen/rewe': (context) => ReweCodeScreen(),
-        '/code_screen/dynamic':
-            (context) => DynamicCodeScreen(
-              backgroundColor: AppColors.codeScreenBackgroundDm,
-              configUrl:
-                  'https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/rewe/config.yml',
-            ),
-      },
     );
   }
 }

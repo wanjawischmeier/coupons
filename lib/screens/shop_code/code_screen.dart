@@ -23,7 +23,7 @@ class _CodeScreenState extends State<CodeScreen> {
   void initState() {
     super.initState();
     if (kIsWeb) {
-      getSetting('enter_fullscreen').then((value) {
+      getBoolSetting('enter_fullscreen').then((value) {
         if (value == true) {
           _enterFullscreen();
         }
