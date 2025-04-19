@@ -1,0 +1,15 @@
+code_page_bg_color: 0xFFE8F4F4
+
+code_page_layout:
+  - type: image
+    url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/dm/assets/top_area.png
+    expanded: false
+    goBack: true
+
+  - type: spacer
+    height: 20
+
+  - type: image
+    url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/dm/assets/bottom_area.png
+    expanded: true
+    goBack: false

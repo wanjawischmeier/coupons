@@ -20,18 +20,34 @@ Future<String> fetchTextFile(String url) async {
 }
 
 
-Future<List<Map<String, dynamic>>> fetchLayoutConfig(String url) async {
+Future<Map<String, dynamic>> fetchLayoutConfig(String url) async {
   final rawLayout = await fetchTextFile(url);
-  if (rawLayout == '') {
-    throw Exception('Failed to load layout');
+  if (rawLayout.trim().isEmpty) {
+    throw Exception('Failed to load layout from URL: $url');
   }
 
-  final yamlData = loadYaml(rawLayout) as YamlMap;
-  final layoutList = yamlData['layout'] as YamlList;
+  log('Raw layout: $rawLayout');
 
-  // Convert YamlMap/YamlList into plain Dart Map/List
-  return layoutList.map((item) => Map<String, dynamic>.from(item)).toList();
+  final yamlData = loadYaml(rawLayout) as YamlMap;
+
+  // Convert YamlMap recursively into a regular Map
+  dynamic convertYaml(dynamic node) {
+    if (node is YamlMap) {
+      return Map<String, dynamic>.fromEntries(
+        node.entries.map(
+          (e) => MapEntry(e.key.toString(), convertYaml(e.value)),
+        ),
+      );
+    } else if (node is YamlList) {
+      return node.map((e) => convertYaml(e)).toList();
+    } else {
+      return node;
+    }
+  }
+
+  return convertYaml(yamlData);
 }
+
 
 List<Widget> buildWidgetsFromConfig(List<Map<String, dynamic>> config, BuildContext context) {
   return config.map<Widget>((item) {
@@ -41,8 +57,7 @@ List<Widget> buildWidgetsFromConfig(List<Map<String, dynamic>> config, BuildCont
           imageUrl: item['url'],
           placeholder: (context, url) => CircularProgressIndicator(),
           errorWidget: (context, url, error) => Icon(Icons.error),
-          fit: BoxFit.cover,
-          width: double.infinity,
+          fit: BoxFit.contain,
         );
 
         final imageWidget = item['expanded'] == true
@@ -63,4 +78,19 @@ List<Widget> buildWidgetsFromConfig(List<Map<String, dynamic>> config, BuildCont
         return SizedBox.shrink();
     }
   }).toList();
+}
+
+
+Future<List<Map<String, dynamic>>> fetchShopListConfig(String url) async {
+  final raw = await fetchTextFile(url);
+  if (raw.trim().isEmpty) throw Exception('Shop list config is empty or missing');
+
+  final yamlData = loadYaml(raw);
+  final rawList = yamlData['shop_list'];
+
+  if (rawList is YamlList) {
+    return rawList.map((e) => Map<String, dynamic>.from(e)).toList();
+  } else {
+    throw Exception('Invalid format for shop_list');
+  }
 }

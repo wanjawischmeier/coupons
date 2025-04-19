@@ -1,0 +1,6 @@
+shop_list:
+  - name: DM
+    logo_url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/dm/assets/logo.png
+    
+  - name: REWE
+    logo_url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/rewe/assets/logo.png

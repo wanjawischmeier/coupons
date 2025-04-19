@@ -2,7 +2,7 @@ code_page_bg_color: 0xFFE8F4F4
 
 code_page_layout:
   - type: image
-    url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/assets/rewe/top_area.png
+    url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/rewe/assets/top_area.png
     expanded: false
     goBack: true
 
@@ -10,6 +10,6 @@ code_page_layout:
     height: 20
 
   - type: image
-    url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/assets/rewe/bottom_area.png
+    url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/rewe/assets/bottom_area.png
     expanded: true
     goBack: false
