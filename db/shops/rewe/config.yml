@@ -1,4 +1,5 @@
 code_page_bg_color: 0xFFE8F4F4
+logo_url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/assets/rewe/top_area.png
 
 code_page_layout:
   - type: image
