@@ -1,15 +1,18 @@
 import 'package:coupons/screens/shop_code/dm_code_screen.dart';
 import 'package:coupons/screens/shop_code/rewe_code_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/home_screen.dart';
 import 'theme/colors.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferences.getInstance();
+  runApp(CouponApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CouponApp extends StatelessWidget {
+  const CouponApp({super.key});
 
   @override
   Widget build(BuildContext context) {
