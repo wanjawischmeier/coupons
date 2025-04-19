@@ -66,16 +66,7 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
-  assets:
-  - assets/dm/top_area.png
-  - assets/dm/center_area.png
-  - assets/dm/bottom_area.png
-  - assets/dm/logo.png
-  - assets/rewe/top_area.png
-  - assets/rewe/center_area.png
-  - assets/rewe/bottom_area.png
-  - assets/rewe/logo.png
-
+  
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
