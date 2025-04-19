@@ -24,9 +24,10 @@ Future<String> getStringSetting(String setting, String defaultValue) async {
 }
 
 Future<void> showSettingDialog(BuildContext context, String defaultConfigUrl) {
-  return showDialog<void>(
+  return showModalBottomSheet<void>(
     context: context,
-    barrierDismissible: true,
+    isDismissible: true,
+    isScrollControlled: true,
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text('Einstellungen'),
@@ -78,45 +79,42 @@ Future<void> showSettingDialog(BuildContext context, String defaultConfigUrl) {
               SizedBox(height: 60),
 
               // Shop List URL
-              Row(
-                children: [
-                  Text('URL der Shop-Liste', style: TextStyle(fontSize: 18)),
-                ],
+              Text('URL der Shop-Liste', style: TextStyle(fontSize: 18)),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return FutureBuilder<String>(
+                      future: getStringSetting('shop_list_url', defaultConfigUrl),
+                      builder: (
+                        BuildContext context,
+                        AsyncSnapshot<String> snapshot,
+                      ) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          log('Error: ${snapshot.error}');
+                          return Text('Error');
+                        } else {
+                          return TextField(
+                            controller: TextEditingController(
+                              text: snapshot.data,
+                            ),
+                            onChanged: (String value) async {
+                              await setStringSetting('shop_list_url', value);
+                              setState(() {});
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'https://example.com/shop_list.yaml',
+                              border: OutlineInputBorder(),
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  },
+                ),
               ),
-              
-                  StatefulBuilder(
-                    builder: (BuildContext context, StateSetter setState) {
-                      return FutureBuilder<String>(
-                        future: getStringSetting('shop_list_url', defaultConfigUrl),
-                        builder: (
-                          BuildContext context,
-                          AsyncSnapshot<String> snapshot,
-                        ) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            log('Error: ${snapshot.error}');
-                            return Text('Error');
-                          } else {
-                            return TextField(
-                              controller: TextEditingController(
-                                text: snapshot.data,
-                              ),
-                              onChanged: (String value) async {
-                                await setStringSetting('shop_list_url', value);
-                                setState(() {});
-                              },
-                              decoration: InputDecoration(
-                                hintText: 'https://example.com/shop_list.yaml',
-                                border: OutlineInputBorder(),
-                              ),
-                            );
-                          }
-                        },
-                      );
-                    },
-                  ),
               Text(
                 'Geben Sie die URL der Konfigurationsdatei ein, die die Liste der Shops enthält.',
                 style: TextStyle(color: Colors.grey[600]),

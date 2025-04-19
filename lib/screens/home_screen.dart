@@ -3,6 +3,7 @@ import 'package:coupons/theme/colors.dart';
 import 'package:coupons/utility/database.dart';
 import 'package:coupons/utility/settings.dart';
 import 'package:coupons/widgets/shop_grid_cell.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,6 +21,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _shopListFuture = fetchShopListConfig(widget.defaultConfigUrl);
+
+    // A bit hacky but oh well, force rebuild on mobile web
+    if (kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+      Future.delayed(const Duration(milliseconds: 300), () => setState(() {}));
+    }
   }
 
   Future<void> showComingSoonDialog() async {
