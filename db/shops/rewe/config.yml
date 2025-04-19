@@ -9,7 +9,7 @@ code_page_layout:
   - type: image
     url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/rewe/assets/center_area.png
     expanded: true
-    goBack: true
+    goBack: false
 
   - type: image
     url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/rewe/assets/bottom_area.png
