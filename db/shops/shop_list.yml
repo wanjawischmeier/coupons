@@ -3,6 +3,6 @@ shop_list:
     logo_url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/dm/assets/logo.png
     config_url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/dm/config.yml
     
-  - name: REWE
+  - name: Rewe
     logo_url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/rewe/assets/logo.png
     config_url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/rewe/config.yml
