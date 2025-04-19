@@ -6,10 +6,14 @@ code_page_layout:
     expanded: false
     goBack: true
 
+  - type: image
+    url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/dm/assets/center_area.png
+    expanded: false
+    goBack: false
+
   - type: spacer
-    height: 20
 
   - type: image
     url: https://raw.githubusercontent.com/wanjawischmeier/coupons/refs/heads/main/db/shops/dm/assets/bottom_area.png
-    expanded: true
+    expanded: false
     goBack: false
