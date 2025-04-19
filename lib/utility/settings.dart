@@ -28,6 +28,7 @@ Future<void> showSettingDialog(BuildContext context, String defaultConfigUrl) {
     context: context,
     isDismissible: true,
     isScrollControlled: true,
+    backgroundColor: Colors.transparent,
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text('Einstellungen'),
@@ -102,7 +103,6 @@ Future<void> showSettingDialog(BuildContext context, String defaultConfigUrl) {
                             ),
                             onChanged: (String value) async {
                               await setStringSetting('shop_list_url', value);
-                              setState(() {});
                             },
                             decoration: InputDecoration(
                               hintText: 'https://example.com/shop_list.yaml',
@@ -124,7 +124,7 @@ Future<void> showSettingDialog(BuildContext context, String defaultConfigUrl) {
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('Close'),
+            child: const Text('Schließen'),
             onPressed: () {
               Navigator.of(context).pop();
             },
